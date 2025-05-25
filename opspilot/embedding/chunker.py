@@ -14,9 +14,8 @@ from langchain.text_splitter import (
     TextSplitter
 )
 from langchain_openai import OpenAIEmbeddings
-from langchain_anthropic import AnthropicEmbeddings
 
-from ..ingestion.ingestor import Document
+from opspilot.ingestion.ingestor import Document
 
 
 @dataclass
@@ -309,12 +308,8 @@ class EmbeddingGenerator:
                 model=model,
                 openai_api_key=api_key
             )
-        elif provider == "anthropic":
-            # Note: Anthropic doesn't have embedding models yet
-            # This is a placeholder for future compatibility
-            raise NotImplementedError("Anthropic embeddings not yet available")
         else:
-            raise ValueError(f"Unsupported embedding provider: {provider}")
+            raise ValueError(f"Unsupported embedding provider: {provider}. Only 'openai' is currently supported.")
     
     def embed_chunks(self, chunks: List[Chunk]) -> List[Chunk]:
         """Generate embeddings for chunks"""
@@ -377,7 +372,7 @@ class DocumentProcessor:
 
 # Usage example
 if __name__ == "__main__":
-    from ..ingestion.ingestor import DocumentIngester
+    from opspilot.ingestion.ingestor import DocumentIngester
     
     # Ingest documents
     ingester = DocumentIngester()
